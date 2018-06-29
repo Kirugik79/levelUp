@@ -35,7 +35,7 @@ class register:
                     else:
                         print("incorrect password")
                 else:
-                    print("Unregistered user, Please register to login")
+                    print("ERROR: Unregistered User, Please register to login")
 
     def login_validation(username, password):
         if username in self.dictionary:
