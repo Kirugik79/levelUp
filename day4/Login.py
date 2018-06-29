@@ -27,7 +27,7 @@ class register:
             if len(password) <= 0:
                 print("Password cannot be blank")
 
-                if user in self.dictionary:
+                if username in self.dictionary:
                     if password == self.dictionary [username][0]:
                         print("login was successful")
                     else:
@@ -36,11 +36,12 @@ class register:
                     print('unregistered user')
 
     def login_validation(username, password):
-        if username in users:
-            if password == users[username]["password"]:
+        if username in self.dictionary:
+            if password == self.dictionary[username]["password"]:
                 print("Welcome" + username)
                 return True
         return False
+
 
 
 
