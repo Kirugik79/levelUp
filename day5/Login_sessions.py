@@ -3,7 +3,6 @@ from flask import Flask, session
 
 import os
 
-
 class register:
 
     def __init__(self):
