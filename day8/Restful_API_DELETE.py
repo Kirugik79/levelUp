@@ -8,30 +8,29 @@ user_comments = []
 
 @app.route('/', methods = ["GET"])
 def home_page():
-	return jsonify ({"Home page": "You are not logged in"})
+	return jsonify ({"Home page": "Welcome to Homepage"})
 
 @app.route('/register', methods=['POST'])
 def register ():
-	if request.method == 'POST':
 		first_name = request.get_json("first_name")
 		last_name = request.get_json("last_name")
-		email = request.get_json('email')
+		email = request.get_json("email")
 		username = request.get_json("username")
 		password = request.get_json("password")
 
-	user_details.update(request.get_json())
-	return jsonify (user_details)
+		user_details.update({"first_name":first_name, "last_name":last_name, "email":email,"password":password})
+		return jsonify ({"message": "You have been successfully registered"})
+		print (user_details)
 
 	
 @app.route ('/login', methods = ["POST"])
 def login():
-	user_details = request.get_json()
-	username = user_details["username"]
-	password = user_details["password"]
-	if username in user_details:
-		if password == "password": 
+	username = request.get_json("username")
+	password = request.get_json("password")
+	for username in user_details:
+		if password == user_details[username]["password"]: 
 			session ["logged_in"] = True
-			return jsonify ({"message ":"Login successful"})
+			return jsonify ({"message ":"You have successfully logged in"})
 		else:
 			return jsonify ({"message ":"Incorrect password"})
 	else:
@@ -45,24 +44,21 @@ def new_post():
 	return jsonify({"message": "create new post"})
 
 
-@app.route("/view_comments",methods=['GET'])
+@app.route("/view_comments",methods =['GET'])
 def view_comments():
     for each in user_comments:
-        user_comments.update({user_comments.index(each):each})
+        user_comments.append({user_comments.index(each):each})
     return jsonify(user_comments)
-    print (user_comments)
-
-
+    
 @app.route('/account', methods=['GET'])
 def account():
 	return jsonify ({"user_details": user_details})
 
 
-@app.route('/remove', methods = ['DELETE'])
+@app.route('/remove/<int:commentID>', methods = ['DELETE'])
 def remove():
-	comment = request.get_json()[user_comments]
-	user_comments.delete(request.get_json())
-	return jsonify({"user_comments": user_comments})
+	del user_comments[commentID]
+	return jsonify({"user_comments": "You have deleted a comment"})
 
 
 if __name__=='__main__':
