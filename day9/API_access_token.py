@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, session, redirect, request
-from flask_jwt import JWT, jwt_required, current_identity
-from werkzeug.security import safe_str_cmp 
+import jwt
+import datetime 
 from functools import wraps
 
 app = Flask (__name__)
@@ -10,8 +10,6 @@ app.config["SECRET_KEY"] = "kirugik"
 user_details = {}
 user_comments = []
 
-user1 = "Robert"
-pass1 = "abc123"
 
 def generate_auth_token(t):
 	@wraps(t)
@@ -66,13 +64,7 @@ def new_post():
 #This is an endpoint to view all user comments
 @app.route("/view_comments",methods =['GET'])
 def view_comments():
-	username = request.get_json()["username"]
-	if username in user_details:
-			for each in user_comments:
-				comments.update({user_comments.index(each):each})
-			return jsonify(comments)
-	else:
-		return jsonify({"message": "You must register first"})
+	return jsonify(user_comments)
 
 #This is an endpoint to delete comments
 @app.route('/remove/<int:commentID>', methods = ["DELETE"])
@@ -83,9 +75,7 @@ def remove(commentID):
 #This is an endpoint to fetch user details
 @app.route('/account', methods=['GET'])
 def account():
-	username = request.get_json()["username"]
-	if username in user_details:
-		return (user_details)
+	return jsonify (user_details)
 
 if __name__=='__main__':
-		app.run (debug = True, port = 5054)
+		app.run (debug = True, port = 5055)
